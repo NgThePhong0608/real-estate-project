@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
+class AuthController extends Controller
+{
+    public function create()
+    {
+        return inertia('Auth/Login');
+    }
+
+    public function store(Request $request)
+    {
+        if (!auth()->attempt($request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string ',
+        ]), true)) {
+            throw ValidationException::withMessages([
+                'email' => 'The provided credentials are incorrect.',
+            ]);
+        }
+        $request->session()->regenerate();
+        return redirect()->intended('/listing');
+    }
+
+    public function destroy()
+    {
+        auth()->logout();
+        request()->session()->invalidate();
+    }
+}
