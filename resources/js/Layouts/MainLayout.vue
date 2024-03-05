@@ -1,6 +1,6 @@
 <script setup>
 import { Link, usePage } from "@inertiajs/inertia-vue3";
-import { computed} from "vue";
+import { computed } from "vue";
 // page.props.value.flash.success
 const page = usePage();
 const flashMessage = computed(
@@ -19,13 +19,14 @@ const flashMessage = computed(
                     <Link :href="`/listing`">Real Estate</Link> &nbsp;&nbsp;
                 </div>
                 <div>
-                    <Link :href="`/listing/create`" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium p-2 rounded-md">+ New Listing</Link>
+                    <Link :href="`/listing/create`" class="btn-primary">+ New Listing</Link>
                 </div>
             </nav>
         </div>
     </header>
     <main class="container mx-auto p-4">
-        <div v-if="flashMessage" class="mb-4 border rounded-md shadow-sm border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900 p-2">
+        <div v-if="flashMessage"
+            class="mb-4 border rounded-md shadow-sm border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900 p-2">
             {{ flashMessage }}
         </div>
         <slot>Default</slot>
