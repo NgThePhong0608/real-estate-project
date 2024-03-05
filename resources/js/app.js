@@ -1,20 +1,28 @@
-import {createApp, h} from 'vue'
-import {createInertiaApp} from '@inertiajs/inertia-vue3'
+import { createApp, h } from "vue";
+import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import MainLayout from "../js/Layouts/MainLayout.vue";
-import '../css/app.css';
+import { InertiaProgress } from "@inertiajs/progress";
+import "../css/app.css";
+
+InertiaProgress.init({
+    delay: 0,
+    color: "#29d",
+    includeCSS: true,
+    showSpinner: true,
+});
 
 createInertiaApp({
     resolve: async (name) => {
-        const pages = import.meta.glob('./Pages/**/*.vue')
+        const pages = import.meta.glob("./Pages/**/*.vue");
 
-        const page = (await pages[`./Pages/${name}.vue`]())
-        page.default.layout = page.default.layout || MainLayout
+        const page = await pages[`./Pages/${name}.vue`]();
+        page.default.layout = page.default.layout || MainLayout;
 
         return page;
     },
-    setup({el, App, props, plugin}) {
-        createApp({render: () => h(App, props)})
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
             .use(plugin)
-            .mount(el)
+            .mount(el);
     },
-})
+});
