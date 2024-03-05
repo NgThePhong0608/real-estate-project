@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-    <span>{{ listing.street }} {{ listing.street_num }}, {{ listing.city }}, for {{ listing.price }} $</span>
+    <span>{{ listing.street }} {{ listing.street_num }}, {{ listing.city }}</span>
 </template>
 
 <style scoped>
