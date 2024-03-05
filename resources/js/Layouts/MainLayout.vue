@@ -9,8 +9,8 @@ const flashMessage = computed(
 </script>
 
 <template>
-    <Link href="/">Main Page</Link> &nbsp;
-    <Link href="/show">Show Page</Link>
+    <Link href="/listing">Listing</Link> &nbsp;&nbsp;
+    <Link href="/listing/create">New listing</Link>
     <div v-if="flashMessage" class="success">
         {{ flashMessage }}
     </div>
