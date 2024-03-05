@@ -15,3 +15,4 @@ use App\Http\Controllers\IndexController;
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/show', [IndexController::class, 'show']);
+Route::resource('/listing', \App\Http\Controllers\ListingController::class)->only(['index', 'show']);
