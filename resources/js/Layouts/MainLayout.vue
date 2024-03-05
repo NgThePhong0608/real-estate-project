@@ -22,10 +22,12 @@ const user = computed(() => page.props.value.user);
                 <div v-if="user" class="flex items-center gap-4">
                     <div class="text-sm text-gray-500">{{ user.name }}</div>
                     <Link :href="`/listing/create`" class="btn-primary">+ New Listing</Link>
-                    <div>Logout</div>
+                    <div>
+                        <Link :href="`/logout`" method="DELETE" as="button">Logout</Link>
+                    </div>
                 </div>
                 <div v-else>
-                    <Link :href="`/login`">Sign in</Link>
+                    <Link :href="`/login`" as="button">Sign in</Link>
                     <!-- <Link :href="`/register`">Register</Link> -->
                 </div>
             </nav>
