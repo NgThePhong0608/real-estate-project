@@ -6,6 +6,7 @@ const page = usePage();
 const flashMessage = computed(
     () => page.props.value.flash.success
 );
+const user = computed(() => page.props.value.user);
 </script>
 
 <template>
@@ -18,8 +19,14 @@ const flashMessage = computed(
                 <div class="text-xl text-indigo-600 dark:text-indigo-300 font-bold text-center">
                     <Link :href="`/listing`">Real Estate</Link> &nbsp;&nbsp;
                 </div>
-                <div>
+                <div v-if="user" class="flex items-center gap-4">
+                    <div class="text-sm text-gray-500">{{ user.name }}</div>
                     <Link :href="`/listing/create`" class="btn-primary">+ New Listing</Link>
+                    <div>Logout</div>
+                </div>
+                <div v-else>
+                    <Link :href="`/login`">Sign in</Link>
+                    <!-- <Link :href="`/register`">Register</Link> -->
                 </div>
             </nav>
         </div>
