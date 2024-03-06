@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use Auth;
 use Illuminate\Http\Request;
 
 class ListingController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Listing::class, 'listing');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -25,6 +30,7 @@ class ListingController extends Controller
      */
     public function create()
     {
+        // $this->authorize('create');
         return inertia('Listing/Create');
     }
 
@@ -54,6 +60,7 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
+        // $this->authorize('view', $listing);
         return inertia(
             'Listing/Show',
             [
