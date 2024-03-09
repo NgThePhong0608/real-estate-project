@@ -48,6 +48,9 @@ class Listing extends Model
         )->when(
             isset($filters['areaTo']),
             fn($query) => $query->where('area', '<=', $filters['areaTo'])
+        )->when(
+            isset($filters['deleted']),
+            fn($query) => (bool)$filters['deleted'] === true ? $query->withTrashed() : $query->withoutTrashed()
         );
     }
 }
