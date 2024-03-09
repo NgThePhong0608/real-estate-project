@@ -12,6 +12,7 @@ class ListingController extends Controller
     {
         $this->authorizeResource(Listing::class, 'listing');
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +21,7 @@ class ListingController extends Controller
         return inertia(
             'Listing/Index',
             [
-                'listings' => Listing::all()
+                'listings' => Listing::orderByDesc('created_at')->paginate(10)
             ]
         );
     }
