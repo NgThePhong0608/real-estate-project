@@ -38,28 +38,34 @@ class Listing extends Model
     {
         return $query->when(
             $filters['beds'] ?? false,
-            fn($query, $value) => $query->where('beds', (int)$value < 6 ? '=' : '>=', $value)
+            fn ($query, $value) => $query->where('beds', (int)$value < 6 ? '=' : '>=', $value)
         )->when(
             $filters['baths'] ?? false,
-            fn($query, $value) => $query->where('baths', (int)$value < 6 ? '=' : '>=', $value)
+            fn ($query, $value) => $query->where('baths', (int)$value < 6 ? '=' : '>=', $value)
         )->when(
             isset($filters['priceFrom']),
-            fn($query) => $query->where('price', '>=', $filters['priceFrom'])
+            fn ($query) => $query->where('price', '>=', $filters['priceFrom'])
         )->when(
             isset($filters['priceTo']),
-            fn($query) => $query->where('price', '<=', $filters['priceTo'])
+            fn ($query) => $query->where('price', '<=', $filters['priceTo'])
         )->when(
             isset($filters['areaFrom']),
-            fn($query) => $query->where('area', '>=', $filters['areaFrom'])
+            fn ($query) => $query->where('area', '>=', $filters['areaFrom'])
         )->when(
             isset($filters['areaTo']),
-            fn($query) => $query->where('area', '<=', $filters['areaTo'])
+            fn ($query) => $query->where('area', '<=', $filters['areaTo'])
         )->when(
             isset($filters['deleted']),
-            fn($query) => (bool)$filters['deleted'] === true ? $query->withTrashed() : $query->withoutTrashed()
+            fn ($query) => (bool)$filters['deleted'] === true ? $query->withTrashed() : $query->withoutTrashed()
         )->when(
             $filters['by'] ?? false,
-            fn($query, $value) => !in_array($value, $this->sortable) ? $query : $query->orderBy($value, $filters['order'] ?? 'desc')
+            function ($query, $value) use ($filters) {
+                if (!in_array($value, $this->sortable)) {
+                    return $query;
+                }
+                $order = isset($filters['order']) && in_array(strtolower($filters['order']), ['asc', 'desc']) ? $filters['order'] : 'desc';
+                return $query->orderBy($value, $order);
+            }
         );
     }
 }

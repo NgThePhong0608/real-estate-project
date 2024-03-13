@@ -19,12 +19,16 @@ class RealtorListingController extends Controller
             'deleted' => $request->boolean('deleted'),
             ...$request->only(['by', 'order'])
         ];
-        return inertia('Realtor/Index',
-            ['listings' => Auth::user()
-                ->listings()
-                ->withFilter($filters)
-                ->get()
-            ]);
+        return inertia(
+            'Realtor/Index',
+            [
+                'filters' => $filters,
+                'listings' => Auth::user()
+                    ->listings()
+                    ->withFilter($filters)
+                    ->get()
+            ]
+        );
     }
 
     public function destroy(Listing $listing)
