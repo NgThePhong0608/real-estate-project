@@ -29,8 +29,13 @@ defineProps({
                     <ListingAddress :listing="listing" />
                 </div>
                 <div class="flex items-center gap-1 text-gray-600 dark:text-gray-300">
-                    <Link class="btn-outline font-medium text-xs">Preview</Link>
-                    <Link class="btn-outline font-medium text-xs">Edit</Link>
+                    <a class="btn-outline font-medium text-xs" :href="`/listing/${listing.id}`" target="_blank">
+                        Preview
+                    </a>
+                    <a class="btn-outline font-medium text-xs" :href="`/realtor/listing/${listing.id}/edit`"
+                        target="_blank">
+                        Edit
+                    </a>
                     <Link class="btn-outline font-medium text-xs" :href="`/realtor/listing/${listing.id}`" as="button"
                         method="delete">Delete
                     </Link>
