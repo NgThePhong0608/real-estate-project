@@ -40,6 +40,17 @@ Route::resource('user-account', UserAccountController::class)
 Route::prefix('realtor')->name('realtor.')
     ->middleware('auth')
     ->group(function () {
+        Route::name('listing.restore')
+            ->put(
+                'listing/{listing}/restore',
+                [RealtorListingController::class, 'restore']
+            )->withTrashed();
+        Route::name('listing.force-delete')
+            ->delete(
+                'listing/{listing}/force-delete',
+                [RealtorListingController::class, 'forceDelete']
+            )->withTrashed();
         Route::resource('listing', RealtorListingController::class)
-            ->only(['index', 'destroy', 'edit', 'update', 'create', 'store']);
+            ->only(['index', 'destroy', 'edit', 'update', 'create', 'store'])
+            ->withTrashed();
     });

@@ -90,4 +90,18 @@ class RealtorListingController extends Controller
         return redirect()->route('listing.index')
             ->with('success', 'Listing was created!');
     }
+
+    public function restore(Listing $listing)
+    {
+        $listing->restore();
+        return redirect()->back()
+            ->with('success', 'Listing was restored!');
+    }
+
+    public function forceDelete(Listing $listing)
+    {
+        $listing->forceDelete();
+        return redirect()->back()
+            ->with('success', 'Listing was permanently deleted!');
+    }
 }
