@@ -28,7 +28,7 @@ defineProps({
                     </div>
                     <ListingAddress :listing="listing" />
                 </div>
-                <div>
+                <section>
                     <div class="flex items-center gap-1 text-gray-600 dark:text-gray-300">
                         <a class="btn-outline font-medium text-xs" :href="`/listing/${listing.id}`" target="_blank">
                             Preview
@@ -51,7 +51,14 @@ defineProps({
                             </Link>
                         </div>
                     </div>
-                </div>
+
+                    <div class="mt-2">
+                        <Link :href="`/realtor/listing/${listing.id}/image/create`"
+                            class="block w-full btn-outline text-xs font-medium text-center">
+                        Images
+                        </Link>
+                    </div>
+                </section>
             </div>
         </Box>
     </section>

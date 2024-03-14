@@ -6,6 +6,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\RealtorListingController;
+use App\Http\Controllers\RealtorListingImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,12 +46,17 @@ Route::prefix('realtor')->name('realtor.')
                 'listing/{listing}/restore',
                 [RealtorListingController::class, 'restore']
             )->withTrashed();
+
         Route::name('listing.force-delete')
             ->delete(
                 'listing/{listing}/force-delete',
                 [RealtorListingController::class, 'forceDelete']
             )->withTrashed();
+
         Route::resource('listing', RealtorListingController::class)
             ->only(['index', 'destroy', 'edit', 'update', 'create', 'store'])
             ->withTrashed();
+
+        Route::resource('listing.image', RealtorListingImageController::class)
+            ->only(['create', 'store']);
     });
