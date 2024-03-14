@@ -59,6 +59,15 @@ defineProps({
                             Images ({{ listing.images_count }})
                         </Link>
                     </div>
+
+                    <div class="mt-2">
+                        <Link
+                            :href="`/realtor/listing/${listing.id}`"
+                            class="block w-full btn-outline text-xs font-medium text-center">
+                            Offer ({{ listing.offers_count }})
+                        </Link>
+                    </div>
+
                 </section>
             </div>
         </Box>

@@ -27,12 +27,22 @@ class RealtorListingController extends Controller
                     ->listings()
                     ->withFilter($filters)
                     ->withCount('images')
+                    ->withCount('offers')
                     ->paginate(5)
                     ->withQueryString()
             ]
         );
     }
 
+    public function show(Listing $listing)
+    {
+        return inertia(
+            'Realtor/Show',
+            [
+                'listing' => $listing
+            ]
+        );
+    }
     public function destroy(Listing $listing)
     {
         $listing->deleteOrFail();
