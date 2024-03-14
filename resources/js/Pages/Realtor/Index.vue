@@ -3,7 +3,7 @@ import Box from "../../Components/UI/Box.vue";
 import Price from "../../Components/Price.vue";
 import ListingSpace from "../../Components/ListingSpace.vue";
 import ListingAddress from "../../Components/ListingAddress.vue";
-import { Link } from '@inertiajs/inertia-vue3';
+import {Link} from '@inertiajs/inertia-vue3';
 import RealtorFilters from "../Realtor/Index/Components/RealtorFilters.vue";
 import Pagination from "../../Components/UI/Pagination.vue";
 
@@ -16,17 +16,17 @@ defineProps({
 <template>
     <h1 class="text-3xl mb-4">Your listing</h1>
     <section class="mb-4">
-        <RealtorFilters :filters="filters" />
+        <RealtorFilters :filters="filters"/>
     </section>
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-2">
         <Box v-for="listing in listings.data" :key="listing.id" :class="{ 'border-dashed': listing.deleted_at }">
             <div class="flex flex-col md:flex-row gap-2 md:items-center justify-between">
                 <div :class="{ 'opacity-25': listing.deleted_at }">
                     <div class="xl:flex items-center gap-2">
-                        <Price :price="listing.price" class="text-2xl font-medium" />
-                        <ListingSpace :listing="listing" />
+                        <Price :price="listing.price" class="text-2xl font-medium"/>
+                        <ListingSpace :listing="listing"/>
                     </div>
-                    <ListingAddress :listing="listing" />
+                    <ListingAddress :listing="listing"/>
                 </div>
                 <section>
                     <div class="flex items-center gap-1 text-gray-600 dark:text-gray-300">
@@ -34,28 +34,29 @@ defineProps({
                             Preview
                         </a>
                         <Link class="btn-outline font-medium text-xs" :href="`/realtor/listing/${listing.id}/edit`"
-                            target="_blank">
-                        Edit
+                              target="_blank">
+                            Edit
                         </Link>
                         <Link class="btn-outline font-medium text-xs" :href="`/realtor/listing/${listing.id}`"
-                            v-if="!listing.deleted_at" as="button" method="delete">Delete
+                              v-if="!listing.deleted_at" as="button" method="delete">Delete
                         </Link>
                         <div v-else>
                             <Link class="btn-outline text-xs font-medium"
-                                :href="`/realtor/listing/${listing.id}/restore`" as="button" method="put">
-                            Restore
+                                  :href="`/realtor/listing/${listing.id}/restore`" as="button" method="put">
+                                Restore
                             </Link>
                             <Link class="btn-outline text-xs font-medium"
-                                :href="`/realtor/listing/${listing.id}/force-delete`" as="button" method="delete">
-                            Delete permanently
+                                  :href="`/realtor/listing/${listing.id}/force-delete`" as="button" method="delete">
+                                Delete permanently
                             </Link>
                         </div>
                     </div>
 
                     <div class="mt-2">
-                        <Link :href="`/realtor/listing/${listing.id}/image/create`"
+                        <Link
+                            :href="`/realtor/listing/${listing.id}/image/create`"
                             class="block w-full btn-outline text-xs font-medium text-center">
-                        Images
+                            Images ({{ listing.images_count }})
                         </Link>
                     </div>
                 </section>
@@ -64,7 +65,7 @@ defineProps({
     </section>
 
     <section v-if="listings.data.length" class="w-full flex justify-center mt-4 mb-4">
-        <Pagination :links="listings.links" />
+        <Pagination :links="listings.links"/>
     </section>
 
 </template>
