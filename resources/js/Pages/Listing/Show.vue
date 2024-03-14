@@ -3,6 +3,7 @@ import ListingAddress from "../../Components/ListingAddress.vue";
 import ListingSpace from "../../Components/ListingSpace.vue";
 import Price from "../../Components/Price.vue";
 import Box from '../../Components/UI/Box.vue';
+import MakeOffer from "../Listing/Show/Components/MakeOffer.vue";
 import { ref } from "vue";
 import { useMonthlyPayment } from "../../Composables/useMonthlyPayment";
 
@@ -77,6 +78,8 @@ const { monthlyPayment, totalPaid, totalInterest } = useMonthlyPayment(
                     </div>
                 </div>
             </Box>
+
+            <MakeOffer :listing-id="listing.id" :price="listing.price" />
         </div>
     </div>
 </template>
