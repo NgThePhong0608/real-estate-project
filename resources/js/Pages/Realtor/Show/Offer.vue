@@ -34,6 +34,8 @@ const madeOn = computed(() => new Date(props.offer.created_at).toDateString());
                 <Link
                     class="btn-outline text-xs font-medium"
                     as="button"
+                    :href="`/realtor/offer/${offer.id}/accept`"
+                    method="put"
                 > Accept
                 </Link>
             </div>
