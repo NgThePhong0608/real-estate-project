@@ -11,12 +11,20 @@ const props = defineProps({
 
 const difference = computed(() => props.offer.amount - props.listingPrice);
 const madeOn = computed(() => new Date(props.offer.created_at).toDateString());
-
+const notSold = computed(
+    () => !props.offer.accepted_at && !props.offer.rejected_at
+)
 </script>
 
 <template>
     <Box>
-        <template #header>Offer #{{ props.offer.id }}</template>
+        <template #header>Offer #{{ props.offer.id }}
+            <span v-if="props.offer.accepted_at"
+                  class="dark:bg-green-900 dark:text-green-200 bg-green-200 text-green-900 p-1 rounded-md uppercase ml-1">
+                Accepted
+            </span>
+<!--            <span v-else class="dark:bg-red-900 dark:text-red-200 bg-red-200 text-red-900 p-1 rounded-md uppercase ml-1">Rejected</span>-->
+        </template>
         <section class="flex items-center justify-between">
             <div>
                 <Price :price="props.offer.amount" class="text-xl"/>
@@ -32,6 +40,7 @@ const madeOn = computed(() => new Date(props.offer.created_at).toDateString());
             </div>
             <div>
                 <Link
+                    v-if="notSold"
                     class="btn-outline text-xs font-medium"
                     as="button"
                     :href="`/realtor/offer/${offer.id}/accept`"

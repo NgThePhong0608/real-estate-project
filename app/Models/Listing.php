@@ -49,25 +49,25 @@ class Listing extends Model
     {
         return $query->when(
             $filters['beds'] ?? false,
-            fn ($query, $value) => $query->where('beds', (int)$value < 6 ? '=' : '>=', $value)
+            fn($query, $value) => $query->where('beds', (int)$value < 6 ? '=' : '>=', $value)
         )->when(
             $filters['baths'] ?? false,
-            fn ($query, $value) => $query->where('baths', (int)$value < 6 ? '=' : '>=', $value)
+            fn($query, $value) => $query->where('baths', (int)$value < 6 ? '=' : '>=', $value)
         )->when(
             isset($filters['priceFrom']),
-            fn ($query) => $query->where('price', '>=', $filters['priceFrom'])
+            fn($query) => $query->where('price', '>=', $filters['priceFrom'])
         )->when(
             isset($filters['priceTo']),
-            fn ($query) => $query->where('price', '<=', $filters['priceTo'])
+            fn($query) => $query->where('price', '<=', $filters['priceTo'])
         )->when(
             isset($filters['areaFrom']),
-            fn ($query) => $query->where('area', '>=', $filters['areaFrom'])
+            fn($query) => $query->where('area', '>=', $filters['areaFrom'])
         )->when(
             isset($filters['areaTo']),
-            fn ($query) => $query->where('area', '<=', $filters['areaTo'])
+            fn($query) => $query->where('area', '<=', $filters['areaTo'])
         )->when(
             isset($filters['deleted']),
-            fn ($query) => (bool)$filters['deleted'] === true ? $query->withTrashed() : $query->withoutTrashed()
+            fn($query) => (bool)$filters['deleted'] === true ? $query->withTrashed() : $query->withoutTrashed()
         )->when(
             $filters['by'] ?? false,
             function ($query, $value) use ($filters) {
@@ -78,5 +78,13 @@ class Listing extends Model
                 return $query->orderBy($value, $order);
             }
         );
+    }
+
+    public function scopeWithoutSold(Builder $query)
+    {
+        return $query->doesntHave('offers')
+            ->orWhereHas('offers',
+                fn(Builder $query) => $query->whereNull('accepted_at')
+                    ->whereNull('rejected_at'));
     }
 }
