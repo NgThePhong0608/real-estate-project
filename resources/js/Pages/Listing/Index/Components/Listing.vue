@@ -13,7 +13,7 @@
             </Link>
         </div>
         <div>
-            <Link :href="`/listing/${listing.id}/edit`">Edit</Link>
+            <Link :href="`/realtor/listing/${listing.id}/edit`">Edit</Link>
         </div>
     </Box>
 </template>
