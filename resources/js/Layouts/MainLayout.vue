@@ -21,7 +21,7 @@ const user = computed(() => page.props.value.user);
                 </div>
                 <div v-if="user" class="flex items-center gap-4">
                     <Link class="text-sm text-gray-500" :href="`/realtor/listing`">{{ user.name }}</Link>
-                    <Link :href="`/listing/create`" class="btn-primary">+ New Listing</Link>
+                    <Link :href="`/realtor/listing/create`" class="btn-primary">+ New Listing</Link>
                     <div>
                         <Link :href="`/logout`" method="DELETE" as="button">Logout</Link>
                     </div>
