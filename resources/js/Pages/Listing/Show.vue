@@ -5,7 +5,8 @@ import Price from "../../Components/Price.vue";
 import Box from '../../Components/UI/Box.vue';
 import MakeOffer from "../Listing/Show/Components/MakeOffer.vue";
 import OfferMade from "../Listing/Show/Components/OfferMade.vue";
-import {computed, ref} from "vue";
+import EmptyState from "../../Components/UI/EmptyState.vue";
+import { computed, ref } from "vue";
 import { useMonthlyPayment } from "../../Composables/useMonthlyPayment";
 import { usePage } from "@inertiajs/inertia-vue3";
 
@@ -35,7 +36,7 @@ const user = computed(
             <div v-if="listing.images.length" class="grid grid-cols-2 gap-2">
                 <img v-for="image in listing.images" :key="image.id" :src="image.src" alt="Listing images">
             </div>
-            <div v-else class="w-full text-center font-medium text-gray-500">No images</div>
+            <EmptyState v-else class="md:col-span-7 flex items-center">No images</EmptyState>
         </Box>
         <div class="md:col-span-5 flex flex-col gap-4">
             <Box>
@@ -87,12 +88,7 @@ const user = computed(
                 </div>
             </Box>
 
-            <MakeOffer
-                v-if="user"
-                :listing-id="listing.id"
-                :price="listing.price"
-                @offer-updated="offer = $event"
-            />
+            <MakeOffer v-if="user" :listing-id="listing.id" :price="listing.price" @offer-updated="offer = $event" />
 
             <OfferMade v-if="user && offerMade" :offer="offerMade" />
         </div>
