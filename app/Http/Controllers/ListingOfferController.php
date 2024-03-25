@@ -22,6 +22,6 @@ class ListingOfferController extends Controller
 
         $listing->owner->notify(new OfferMade($offer));
 
-        return redirect()->back()->with('sucess', 'Offer created successfully');
+        return redirect()->back()->with('success', 'Offer created successfully');
     }
 }
