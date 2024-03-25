@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
 class UserAccountController extends Controller
@@ -21,6 +21,7 @@ class UserAccountController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]));
         auth()->login($user);
+        event(new Registered($user));
 
         return redirect()->route('listing.index')
             ->with('success', 'Your account has been created!');
