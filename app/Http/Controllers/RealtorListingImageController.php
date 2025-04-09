@@ -6,6 +6,7 @@ use App\Models\Listing;
 use App\Models\ListingImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 
 class RealtorListingImageController extends Controller
 {
@@ -28,26 +29,45 @@ class RealtorListingImageController extends Controller
                 'images.*.max' => 'The image may not be greater than 5MB.',
             ]);
 
-            foreach ($request->file('images') as $file) {
-                $path = $file->store('images', 'public');
-                $listing->images()->save(new ListingImage([
-                    'filename' => $path,
-                ]));
+            try {
+                foreach ($request->file('images') as $file) {
+                    $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+
+                    $path = Storage::disk('s3')->putFileAs(
+                        'images',
+                        $file,
+                        $filename,
+                        ['visibility' => 'public']
+                    );
+
+                    if (!$path) {
+                        throw new \Exception('Failed to upload image to S3.');
+                    }
+
+                    $listing->images()->save(new ListingImage([
+                        'filename' => $path,
+                    ]));
+                }
+
+                return Redirect::back()
+                    ->with('success', 'Images uploaded successfully!');
+            } catch (\Exception $e) {
+                return Redirect::back()
+                    ->withErrors(['upload_error' => 'Error uploading images: ' . $e->getMessage()])
+                    ->withInput();
             }
         }
 
-        return redirect()
-            ->back()
-            ->with('success', 'Images uploaded successfully!');
+        return Redirect::back()
+            ->with('info', 'No images were uploaded.');
     }
 
     public function destroy(Listing $listing, ListingImage $image)
     {
-        Storage::disk('public')->delete($image->filename);
+        Storage::disk('s3')->delete($image->filename);
         $image->delete();
 
-        return redirect()
-            ->back()
+        return Redirect::back()
             ->with('success', 'Image deleted successfully!');
     }
 }
